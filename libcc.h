@@ -1,42 +1,32 @@
+//     ,──.   ,──.,──.    ,─────. ,─────.
+//     │  │   `──'│  │─. '  .──./'  .──./
+//     │  │   ,──.│ .─. '│  │    │  │
+//     │  '──.│  ││ `─' │'  '──'╲'  '──'╲
+//     `─────'`──' `───'  `─────' `─────'
+//
+//     LibCC - lightweight C compiler invocation library
+
 #ifndef LIBCC_H
 #define LIBCC_H
 
-#define MAX_ARG ((32 << 10) / sizeof(char))
+#define CC_COMPILER_DEFAULT "cc"
+#define CC_COMPILER_GCC     "gcc"
+#define CC_COMPILER_CLANG   "clang" // TODO: not natively supported
+#define CC_COMPILER_MSVC    "cl"    // TODO: not natively supported
 
-typedef enum {
-    CC_OK,
-    CC_FAIL
-} CC_Status;
+#include <stdbool.h>
 
-typedef enum {
-    CC_GCC,
-    CC_CLANG, // TODO: not supported as of now
-    CC_MSVC   // TODO: not supported as of now
-} CC_Compiler;
+typedef struct CC_Toolchain CC_Toolchain;
 
-// cc [<flags>] [<includes>] [<lpaths>] [<libs>] -c [<sources>] -o [<output>]
-typedef struct {
-    char  *render[MAX_ARG]; // render cache per state
-    CC_Compiler cc;
-    char **flags;
-    char **includes;
-    char **libpaths;
-    char **libraries;
-    char **sources;
-    char  *output;
-} CC_State;
+// Construction
+CC_Toolchain *cc_new   (void);
+void          cc_delete(CC_Toolchain *cc);
 
-// construction
-CC_State *CC_New   ();
-void      CC_Delete(CC_State *cc);
-
-// functions
-CC_Status  CC_Set       (CC_State *cc, CC_Compiler c);
-CC_Status  CC_AddFlag   (CC_State *cc, char *flag);
-CC_Status  CC_AddInclude(CC_State *cc, char *include);
-CC_Status  CC_AddLibPath(CC_State *cc, char *libpath);
-CC_Status  CC_AddLib    (CC_State *cc, char *lib);
-CC_Status  CC_AddSource (CC_State *cc, char *source);
-char      *CC_RenderCMD (CC_State *cc);
+// Operations
+bool cc_add_source      (CC_Toolchain *cc, const char *file); // cc   [<FILE>]
+bool cc_add_include_path(CC_Toolchain *cc, const char *path); // cc -I[<PATH>]
+bool cc_add_library_path(CC_Toolchain *cc, const char *path); // cc -L[<PATH>]
+bool cc_add_library     (CC_Toolchain *cc, const char *lib);  // cc -l[<LIB>]
+bool cc_compile         (void);
 
 #endif // LIBCC_H
