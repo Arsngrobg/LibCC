@@ -22,7 +22,7 @@
 typedef enum {
     CC_STYLE_GNU, // GCC or Clang
     CC_STYLE_MSVC // MSVC
-} CC_Invocation_Style;
+} CC_InvocationStyle;
 
 typedef struct CC_Toolchain CC_Toolchain;
 
@@ -31,8 +31,8 @@ CC_Toolchain *cc_new   (void);
 void          cc_delete(CC_Toolchain *cc);
 
 // Operations
-void        cc_set_invocation_style(CC_Toolchain *cc, CC_Invocation_Style style);
-bool        cc_set_profile         (CC_Toolchain *cc, const char *ccid, CC_Invocation_Style style);
+void        cc_set_invocation_style(CC_Toolchain *cc, CC_InvocationStyle style);
+bool        cc_set_profile         (CC_Toolchain *cc, const char *ccid, CC_InvocationStyle style);
 bool        cc_set_compiler        (CC_Toolchain *cc, const char *ccid); // [<CCID>]
 bool        cc_add_flag            (CC_Toolchain *cc, const char *flag); // cc    [<FLAG>]
 bool        cc_add_include_path    (CC_Toolchain *cc, const char *path); // cc -I[<PATH>]
