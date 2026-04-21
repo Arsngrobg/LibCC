@@ -9,13 +9,13 @@
 #ifndef LIBCC_H
 #define LIBCC_H
 
-#define CC_COMPILER_DEFAULT         "cc"
-#define CC_COMPILER_GCC             "gcc"
-#define CC_COMPILER_CLANG           "clang" // TODO: not natively supported
-#define CC_COMPILER_MSVC            "cl"    // TODO: not natively supported
-#define CC_PROFILE_GCC              CC_COMPILER_GCC, CC_STYLE_GNU
-#define CC_PROFILE_CLANG            CC_COMPILER_CLANG, CC_STYLE_GNU
-#define CC_PROFILE_MSVC             CC_COMPILER_MSVC, CC_STYLE_MSVC
+#define CC_COMPILER_DEFAULT "cc"
+#define CC_COMPILER_GCC     "gcc"
+#define CC_COMPILER_CLANG   "clang" // TODO: not natively supported
+#define CC_COMPILER_MSVC    "cl"    // TODO: not natively supported
+#define CC_PROFILE_GCC      (CC_COMPILER_GCC),   (CC_STYLE_GNU)
+#define CC_PROFILE_CLANG    (CC_COMPILER_CLANG), (CC_STYLE_GNU)
+#define CC_PROFILE_MSVC     (CC_COMPILER_MSVC),  (CC_STYLE_MSVC)
 
 #include <stdbool.h>
 
