@@ -175,7 +175,7 @@ const char *cc_render_command(CC_Toolchain *cc) {
     // libs
     for (size_t lib = 0; lib < cc->libs->length; lib++) {
         cc->render[len++] = '-';
-        cc->render[len++] = 'L';
+        cc->render[len++] = 'l';
 
         size_t len = strlen(cc->libs->args[lib]);
         for (size_t idx = 0; idx < len; idx++) {
