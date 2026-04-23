@@ -140,54 +140,54 @@ const char *cc_render_command(CC_Toolchain *cc) {
     }
 
     size_t len = 0;
-    while (len <= LIBCC_ARGMAX - 1) {
-        // options
-        for (size_t opt = 0; opt < cc->options->length; opt++) {
-            size_t len = strlen(cc->options->args[opt]);
-            for (size_t idx = 0; idx < len; idx++) {
-                cc->render[len++] = cc->options->args[opt][idx];
-            }
+
+    // TODO: this can error if, for some reason, you have a command that is larger than 32KB
+    // options
+    for (size_t opt = 0; opt < cc->options->length; opt++) {
+        size_t len = strlen(cc->options->args[opt]);
+        for (size_t idx = 0; idx < len; idx++) {
+            cc->render[len++] = cc->options->args[opt][idx];
         }
+    }
 
-        // include paths
-        for (size_t inc = 0; inc < cc->include_paths->length; inc++) {
-            cc->render[len++] = '-';
-            cc->render[len++] = 'I';
+    // include paths
+    for (size_t inc = 0; inc < cc->include_paths->length; inc++) {
+        cc->render[len++] = '-';
+        cc->render[len++] = 'I';
 
-            size_t len = strlen(cc->include_paths->args[inc]);
-            for (size_t idx = 0; idx < len; idx++) {
-                cc->render[len++] = cc->include_paths->args[inc][idx];
-            }
+        size_t len = strlen(cc->include_paths->args[inc]);
+        for (size_t idx = 0; idx < len; idx++) {
+            cc->render[len++] = cc->include_paths->args[inc][idx];
         }
+    }
 
-        // lib paths
-        for (size_t libp = 0; libp < cc->lib_paths->length; libp++) {
-            cc->render[len++] = '-';
-            cc->render[len++] = 'L';
+    // lib paths
+    for (size_t libp = 0; libp < cc->lib_paths->length; libp++) {
+        cc->render[len++] = '-';
+        cc->render[len++] = 'L';
 
-            size_t len = strlen(cc->lib_paths->args[libp]);
-            for (size_t idx = 0; idx < len; idx++) {
-                cc->render[len++] = cc->lib_paths->args[libp][idx];
-            }
+        size_t len = strlen(cc->lib_paths->args[libp]);
+        for (size_t idx = 0; idx < len; idx++) {
+            cc->render[len++] = cc->lib_paths->args[libp][idx];
         }
+    }
 
-        // libs
-        for (size_t lib = 0; lib < cc->libs->length; lib++) {
-            cc->render[len++] = '-';
-            cc->render[len++] = 'L';
+    // libs
+    for (size_t lib = 0; lib < cc->libs->length; lib++) {
+        cc->render[len++] = '-';
+        cc->render[len++] = 'L';
 
-            size_t len = strlen(cc->libs->args[lib]);
-            for (size_t idx = 0; idx < len; idx++) {
-                cc->render[len++] = cc->libs->args[lib][idx];
-            }
+        size_t len = strlen(cc->libs->args[lib]);
+        for (size_t idx = 0; idx < len; idx++) {
+            cc->render[len++] = cc->libs->args[lib][idx];
         }
+    }
 
-        // sources
-        for (size_t src = 0; src < cc->sources->length; src++) {
-            size_t len = strlen(cc->sources->args[src]);
-            for (size_t idx = 0; idx < len; idx++) {
-                cc->render[len++] = cc->sources->args[src][idx];
-            }
+    // sources
+    for (size_t src = 0; src < cc->sources->length; src++) {
+        size_t len = strlen(cc->sources->args[src]);
+        for (size_t idx = 0; idx < len; idx++) {
+            cc->render[len++] = cc->sources->args[src][idx];
         }
     }
 
