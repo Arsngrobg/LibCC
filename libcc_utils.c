@@ -32,6 +32,17 @@ char *cc_strdup(const char *s) {
     return cpy;
 }
 
+CC_ArgList *cc_arglist_new(void) {
+    CC_ArgList *list = malloc(sizeof(CC_ArgList));
+    if (list == NULL) {
+        fprintf(stderr, "Unable to allocate enough memory for a new CC_ArgList\n");
+        return NULL;
+    }
+
+    list->length = 0;
+    return list;
+}
+
 // this is a very dumb and simple reallocation method
 // TODO: optimization
 bool cc_arglist_append(CC_ArgList *list, const char *arg) {
