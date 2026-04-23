@@ -40,11 +40,31 @@ CC_Toolchain *cc_new(void) {
         return NULL;
     }
 
-    cc->ccid = cc_strdup(CC_COMPILER_DEFAULT);
+    cc->ccid          = cc_strdup(CC_COMPILER_DEFAULT);
+    cc->options       = cc_arglist_new();
+    cc->include_paths = cc_arglist_new();
+    cc->lib_paths     = cc_arglist_new();
+    cc->libs          = cc_arglist_new();
+    cc->sources       = cc_arglist_new();
+
+    if ((!cc->ccid) || (!cc->options) || (!cc->include_paths) || (!cc->lib_paths) || (!cc->libs) || (!cc->sources)) {
+        return NULL;
+    }
     return cc;
 }
 
 void cc_delete(CC_Toolchain *cc) {
+    if (cc == NULL) {
+        fprintf(stderr, "Passing NULL CC_Toolchain pointer to cc_delete\n");
+        return;
+    }
+
+    free(cc->ccid);
+    free(cc->options);
+    free(cc->include_paths);
+    free(cc->lib_paths);
+    free(cc->libs);
+    free(cc->sources);
     free(cc);
 }
 
@@ -89,8 +109,7 @@ bool cc_add_include_path(CC_Toolchain *cc, const char *path) {
         return false;
     }
 
-    cc_arglist_append(cc->include_paths, path);
-    return true;
+    return cc_arglist_append(cc->include_paths, path);
 }
 
 bool cc_add_library_path(CC_Toolchain *cc, const char *path) {
@@ -99,8 +118,7 @@ bool cc_add_library_path(CC_Toolchain *cc, const char *path) {
         return false;
     }
 
-    cc_arglist_append(cc->lib_paths, path);
-    return true;
+    return cc_arglist_append(cc->lib_paths, path);
 }
 
 bool cc_add_library(CC_Toolchain *cc, const char *lib) {
@@ -109,8 +127,7 @@ bool cc_add_library(CC_Toolchain *cc, const char *lib) {
         return false;
     }
 
-    cc_arglist_append(cc->libs, lib);
-    return true;
+    return cc_arglist_append(cc->libs, lib);
 }
 
 bool cc_add_source(CC_Toolchain *cc, const char *source) {
@@ -119,8 +136,7 @@ bool cc_add_source(CC_Toolchain *cc, const char *source) {
         return false;
     }
 
-    cc_arglist_append(cc->sources, source);
-    return true;
+    return cc_arglist_append(cc->sources, source);
 }
 
 bool cc_set_outut(CC_Toolchain *cc, const char *out) {
