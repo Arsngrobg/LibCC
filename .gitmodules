@@ -1,0 +1,3 @@
+[submodule "mymk"]
+	path = mymk
+	url = https://github.com/Arsngrobg/mymk.git
