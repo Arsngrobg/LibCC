@@ -11,19 +11,10 @@
 
 #define CC_COMPILER_DEFAULT "cc"
 #define CC_COMPILER_GCC     "gcc"
-#define CC_COMPILER_CLANG   "clang" // TODO: not natively supported
-#define CC_COMPILER_MSVC    "cl"    // TODO: not natively supported
-#define CC_PROFILE_GCC      (CC_COMPILER_GCC),   (CC_STYLE_GNU)
-#define CC_PROFILE_CLANG    (CC_COMPILER_CLANG), (CC_STYLE_GNU)
-#define CC_PROFILE_MSVC     (CC_COMPILER_MSVC),  (CC_STYLE_MSVC)
+#define CC_COMPILER_CLANG   "clang"
 
 #include <stdint.h>
 #include <stdbool.h>
-
-typedef enum {
-    CC_STYLE_GNU, // GCC or Clang
-    CC_STYLE_MSVC // MSVC
-} CC_InvocationStyle;
 
 typedef struct CC_Toolchain CC_Toolchain;
 
@@ -32,8 +23,6 @@ CC_Toolchain *cc_new   (void);
 void          cc_delete(CC_Toolchain *cc);
 
 // Operations
-bool        cc_set_profile         (CC_Toolchain *cc, const char *ccid, CC_InvocationStyle style);
-bool        cc_set_invocation_style(CC_Toolchain *cc, CC_InvocationStyle style);
 bool        cc_set_compiler        (CC_Toolchain *cc, const char *ccid);   // [<CCID>]
 bool        cc_add_option          (CC_Toolchain *cc, const char *option); // cc    [<OPTION>]
 bool        cc_add_include_path    (CC_Toolchain *cc, const char *path);   // cc -I[<PATH>]

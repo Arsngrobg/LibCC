@@ -68,20 +68,6 @@ void cc_delete(CC_Toolchain *cc) {
     free(cc);
 }
 
-bool cc_set_profile(CC_Toolchain *cc, const char *ccid, CC_InvocationStyle style) {
-    return cc_set_compiler(cc, ccid) && cc_set_invocation_style(cc, style);
-}
-
-bool cc_set_invocation_style(CC_Toolchain *cc, CC_InvocationStyle style) {
-    if (cc == NULL) {
-        fprintf(stderr, "CC_Toolchain cannot be NULL\n");
-        return false;
-    }
-
-    cc->invoke_style = style;
-    return true;
-}
-
 bool cc_set_compiler(CC_Toolchain *cc, const char *ccid) {
     if (cc == NULL) {
         fprintf(stderr, "CC_Toolchain cannot be NULL\n");
