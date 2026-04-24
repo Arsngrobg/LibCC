@@ -41,19 +41,25 @@ SOEXT     := so
 SOFLAG    := -shared
 endif
 
+# BUILD VARIABLES
+LIBCC_SOURCE := $(LIBCCROOT)/$(NAME).c
+LIBCC_OBJECT := $(OBJDIR)/$(LIBCCOBJ)/$(NAME).o
+LIBCC_STATIC := $(LIBDIR)/$(NAME).a
+LIBCC_SHARED := $(LIBDIR)/$(NAME).$(SOEXT)
+
 # RECIPES
-$(LIBDIR)/$(NAME).$(SOEXT): $(OBJDIR)/$(NAME).o | $(LIBDIR)/
-	@echo [Make] creating $(NAME) shared library ($(NAME).$(SOEXT))
+$(LIBCC_SHARED): $(LIBCC_OBJECT) | $(LIBDIR)/
+	@echo make: creating $(NAME) shared library ($(NAME).$(SOEXT))
 	@$(CC) $(SOFLAG) -o $@ $<
 
-$(LIBDIR)/$(NAME).a: $(OBJDIR)/$(NAME).o | $(LIBDIR)/
-	@echo [Make] Creating $(NAME) static library ($(NAME).a)
+$(LIBCC_STATIC): $(LIBCC_OBJECT) | $(LIBDIR)/
+	@echo make: Creating $(NAME) static library ($(NAME).a)
 	@$(AR) $(ARFLAGS) $@ $<
 
-$(OBJDIR)/$(NAME).o: $(LIBCCROOT)/$(NAME).c | $(OBJDIR)/
-	@echo [Make] Compiling $@
+$(LIBCC_OBJECT): $(LIBCC_SOURCE) | $(OBJDIR)/
+	@echo make: Compiling $@
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 %/:
-	@echo [Make] Creating new directory $(subst /,\,\$(patsubst %/,%,$@))
+	@echo make: Creating new directory $(subst /,\,\$(patsubst %/,%,$@))
 	@$(MKDIR) $(subst /,\,$@)

@@ -1,5 +1,5 @@
-.dll
-.so
-.dylib
-.a
-.o
+*.dll
+*.so
+*.dylib
+*.a
+*.o
