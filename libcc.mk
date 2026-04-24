@@ -7,7 +7,7 @@
 #      LibCC - lightweight C compiler invocation library
 
 # PROJECT
-NAME      := libcc
+LIBCC     := libcc
 
 # COMPILATION & INSTALLATION
 CC        ?= cc
@@ -51,10 +51,10 @@ override CFLAGS += -fPIC
 endif
 
 # RECIPES
-LIBCC_SOURCE := $(LIBCCROOT)/$(NAME).c
-LIBCC_OBJECT := $(OBJDIR)/$(LIBCCOBJ)/$(NAME).o
-LIBCC_STATIC := $(LIBDIR)/$(NAME).a
-LIBCC_SHARED := $(LIBDIR)/$(NAME).$(SOEXT)
+LIBCC_SOURCE := $(LIBCCROOT)/libcc.c
+LIBCC_OBJECT := $(OBJDIR)/$(LIBCCOBJ)/libcc.o
+LIBCC_STATIC := $(LIBDIR)/libcc.a
+LIBCC_SHARED := $(LIBDIR)/libcc.$(SOEXT)
 
 $(LIBCC_SHARED): $(LIBCC_OBJECT) | $(LIBDIR)/
 	@$(LOG) Creating $(NAME) shared library ($(NAME).$(SOEXT))
