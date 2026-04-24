@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "libcc_utils.c"
+#include "libcc_internal.c"
 
 #define LIBCC_ARGMAX ((32 << 10) - 1) // 32KB - Windows compatible
 
