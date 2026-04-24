@@ -41,13 +41,12 @@ SOEXT     := so
 SOFLAG    := -shared
 endif
 
-# BUILD VARIABLES
+# RECIPES
 LIBCC_SOURCE := $(LIBCCROOT)/$(NAME).c
 LIBCC_OBJECT := $(OBJDIR)/$(LIBCCOBJ)/$(NAME).o
 LIBCC_STATIC := $(LIBDIR)/$(NAME).a
 LIBCC_SHARED := $(LIBDIR)/$(NAME).$(SOEXT)
 
-# RECIPES
 $(LIBCC_SHARED): $(LIBCC_OBJECT) | $(LIBDIR)/
 	@echo make: creating $(NAME) shared library ($(NAME).$(SOEXT))
 	@$(CC) $(SOFLAG) -o $@ $<
