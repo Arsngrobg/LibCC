@@ -15,7 +15,7 @@ shared: $(LIBDIR)/$(NAME).$(SOEXT)
 static: $(LIBDIR)/$(NAME).a
 
 clean:
-	@echo [Make] Purging $(BUILDDIR) directory
+	@echo make: Purging $(BUILDDIR) directory
 	@$(RM) $(subst /,\,$(BUILDDIR)) || exit 0
 
 .DEFAULT_GOAL = all

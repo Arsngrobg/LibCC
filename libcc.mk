@@ -55,7 +55,7 @@ $(LIBCC_STATIC): $(LIBCC_OBJECT) | $(LIBDIR)/
 	@echo make: Creating $(NAME) static library ($(NAME).a)
 	@$(AR) $(ARFLAGS) $@ $<
 
-$(LIBCC_OBJECT): $(LIBCC_SOURCE) | $(OBJDIR)/
+$(LIBCC_OBJECT): $(LIBCC_SOURCE) | $(OBJDIR)/$(LIBCCOBJ)/
 	@echo make: Compiling $@
 	@$(CC) $(CFLAGS) -c $< -o $@
 
