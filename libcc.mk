@@ -6,68 +6,33 @@
 #
 #      LibCC - lightweight C compiler invocation library
 
-# PROJECT
-LIBCC     := libcc
+ifndef LIBCC_MK
+LIBCC_MK := $(lastword $(MAKEFILE_LIST))
 
-# COMPILATION & INSTALLATION
-CC        ?= cc
-CFLAGS    ?= -std=c99 -O2 -Wall -Wextra -Wpedantic
-AR        ?= ar
-ARFLAGS   := -rcs
+include mymk/mymk.mk
 
-# BUILD SYSTEM
-LIBCCROOT ?= $(dir $(lastword $(MAKEFILE_LIST)))
-LIBCCOBJ  ?= $(notdir $(patsubst %/,%,$(LIBCCROOT)))
-BUILDDIR  ?= build
-OBJDIR    := $(BUILDDIR)/obj
-LIBDIR    := $(BUILDDIR)/lib
-
-# SHELL UTILITIES
-ifdef ComSpec # cmd.exe/Powershell.exe most likely
-FSEP      := \\
-CP        := copy /y >nul
-MKDIR     := mkdir
-RM        := rmdir /S /Q 2>nul
-else
-FSEP      := /
-CP        := cp
-MKDIR     := mkdir -p
-RM        := rm -rf
-endif
-LOG       := echo make:
-
-# LIBRARY FORMATTING
-MACHINE   := $(shell $(CC) -dumpmachine)
-ifneq ($(findstring mingw,$(MACHINE)),)
-SOEXT     := dll
-SOFLAG    := -shared
-else ifneq ($(findstring darwin,$(MACHINE)),)
-SOEXT     := dylib
-SOFLAG    := -dynamiclib
-else
-SOEXT     := so
-SOFLAG    := -shared
-override CFLAGS += -fPIC
+# RELATIVE FILE PATHS
+LIBCC_PREFIX := $(dir $(LIBCC_MK))
+ifeq ($(LIBCC_PREFIX),./)
+LIBCC_PREFIX := $()
 endif
 
 # RECIPES
-LIBCC_SOURCE := $(LIBCCROOT)/libcc.c
-LIBCC_OBJECT := $(OBJDIR)/$(LIBCCOBJ)/libcc.o
-LIBCC_STATIC := $(LIBDIR)/libcc.a
-LIBCC_SHARED := $(LIBDIR)/libcc.$(SOEXT)
-
-$(LIBCC_SHARED): $(LIBCC_OBJECT) | $(LIBDIR)/
-	@$(LOG) Creating $(NAME) shared library ($(NAME).$(SOEXT))
-	@$(CC) $(SOFLAG) -o $@ $<
+LIBCC_SOURCE := $(LIBCC_PREFIX)libcc.c
+LIBCC_OBJECT := $(OBJDIR)/$(LIBCC_PREFIX)libcc.o
+LIBCC_SHARED := $(LIBDIR)/$(LIBCC_PREFIX)libcc.$(SOEXT)
+LIBCC_STATIC := $(LIBDIR)/$(LIBCC_PREFIX)libcc.a
 
 $(LIBCC_STATIC): $(LIBCC_OBJECT) | $(LIBDIR)/
-	@$(LOG) Creating $(NAME) static library ($(NAME).a)
+	@$(LOG) Creating libcc static library (libcc.a)
 	@$(AR) $(ARFLAGS) $@ $<
 
-$(LIBCC_OBJECT): $(LIBCC_SOURCE) | $(OBJDIR)/$(LIBCCOBJ)/
-	@$(LOG) Compiling $@
+$(LIBCC_SHARED): $(LIBCC_OBJECT) | $(LIBDIR)/
+	@$(LOG) Creating libcc shared library (libcc.$(SOEXT))
+	@$(CC) $(CFLAGS) $(SOFLAG) -o $@ $<
+
+$(LIBCC_OBJECT): $(LIBCC_SOURCE) | $(OBJDIR)/
+	@$(LOG) Compiling $<
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-%/:
-	@$(LOG) Creating new directory $@
-	@$(MKDIR) $(subst /,$(FSEP),$@)
+endif # LIBCC_MK

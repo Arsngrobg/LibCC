@@ -6,18 +6,18 @@
 #
 #      LibCC - lightweight C compiler invocation library
 
+include mymk/mymk.mk
 include libcc.mk
 
 all: shared static
 
-shared: $(LIBDIR)/$(NAME).$(SOEXT)
+shared: $(LIBCC_SHARED)
 
-static: $(LIBDIR)/$(NAME).a
+static: $(LIBCC_STATIC)
 
 clean:
 	@$(LOG) Purging $(BUILDDIR) directory
-	@$(RM) $(subst /,\,$(BUILDDIR)) || exit 0
+	@$(RMDIR) $(subst /,\,$(BUILDDIR))
 
 .DEFAULT_GOAL = all
 .PHONY: all shared static clean
-	
