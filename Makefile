@@ -17,7 +17,7 @@ static: $(LIBCC_STATIC)
 
 clean:
 	@$(LOG) Purging $(BUILDDIR) directory
-	@$(RMDIR) $(subst /,\,$(BUILDDIR))
+	@$(RMDIR) $(subst /,$(PATHSEP),$(BUILDDIR))
 
 .DEFAULT_GOAL = all
 .PHONY: all shared static clean
