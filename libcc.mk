@@ -9,7 +9,7 @@
 ifndef LIBCC_MK
 LIBCC_MK := $(lastword $(MAKEFILE_LIST))
 
-include mymk/mymk.mk
+include $(dir $(LIBCC_MK))mymk/mymk.mk
 
 # RELATIVE FILE PATHS
 LIBCC_PREFIX := $(dir $(LIBCC_MK))
