@@ -23,7 +23,6 @@ struct CC_Toolchain {
 
     // Invocation
     char *ccid;
-    CC_InvocationStyle invoke_style;
 
     // Arguments
     CC_ArgList *options;
