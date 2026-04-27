@@ -6,7 +6,6 @@
 #
 #      LibCC - lightweight C compiler invocation library
 
-include mymk/mymk.mk
 include libcc.mk
 
 all: shared static
