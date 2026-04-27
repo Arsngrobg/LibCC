@@ -12,7 +12,6 @@ LIBCC_MK := $(lastword $(MAKEFILE_LIST))
 include $(dir $(LIBCC_MK))/mymk.mk
 
 # RELATIVE FILE PATHS
-#LIBCC_MK := vendor/libcc/libcc.mk
 LIBCC_PREFIX := $(patsubst %/,%,$(dir $(LIBCC_MK)))
 LIBCC_OBJDIR := $(notdir $(patsubst %/,%,$(LIBCC_PREFIX)))
 
