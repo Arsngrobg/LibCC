@@ -15,6 +15,9 @@ include $(LIBCC_MK)mymk.mk
 LIBCC_PREFIX  := $(subst ./,,$(LIBCC_MK))
 LIBCC_OBJDUMP := $(OBJDUMP)$(addprefix /,$(notdir $(patsubst %/,%,$(LIBCC_PREFIX))))
 
+# COMPILER CONFIGURATION
+override CFLAGS += -I$(LIBCC_PREFIX)
+
 # FILES
 LIBCC_C       := $(LIBCC_PREFIX)libcc.c
 LIBCC_O       := $(LIBCC_OBJDUMP)/libcc.o
