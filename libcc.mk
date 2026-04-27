@@ -30,7 +30,7 @@ $(LIBCC_SHARED): $(LIBCC_O) | $(LIBDUMP)/
 	@$(LOG) Packaging the libcc shared library (libcc.$(SOEXT))
 	@$(CC) $(SOFLAG) -o $@ $<
 
-$(LIBCC_O): $(LIBCC_C) | $(OBJDUMP)/
+$(LIBCC_O): $(LIBCC_C) | $(LIBCC_OBJDUMP)/
 	@$(LOG) Compiling $<
 	@$(CC) $(CFLAG) -c $< -o $@
 
