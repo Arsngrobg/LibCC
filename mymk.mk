@@ -10,10 +10,12 @@ ifndef MYMK_MK
 MYMK_MK := $(lastword $(MAKEFILE_LIST))
 
 # BUILD SYSTEM
-BUILDDIR ?= build
-OBJDIR   := $(BUILDDIR)/obj
-LIBDIR   := $(BUILDDIR)/lib
-BINDIR   := $(BUILDDIR)/bin
+PREFIX   ?= /
+BUILDDIR := build
+OBJDUMP  := $(BUILDDIR)/obj
+LIBDUMP  := $(BUILDDIR)/lib
+BINDUMP  := $(BUILDDIR)/bin
+DESTDIR  ?= $(BUILDDIR)/pkg
 
 # SHELL UTILITIES
 ifdef ComSpec
@@ -35,8 +37,9 @@ AR      ?= ar
 CFLAGS  ?= -Wall -Wextra -Werror -Wpedantic
 ARFLAGS := -rcs
 
-# LIBRARIES
+# CROSS-PLATFORM DEFINITIONS
 ifeq ($(OS),Windows_NT)
+EXEXT   := .exe
 SOEXT   := dll
 SOFLAG  := -shared
 else
@@ -44,11 +47,12 @@ OS := $(shell uname -s)
 ifeq ($(OS),Darwin)
 SOEXT   := dylib
 SOFLAG  := -dynamiclib
-override CFLAGS += -fPIC
 else
 SOEXT   := so
 SOFLAG  := -shared
+override CFLAGS += -fPIC
 endif # $(OS),Darwin
+EXEXT   := $()
 endif # $(OS),Windows_NT
 
 # COMMON RECIPES
