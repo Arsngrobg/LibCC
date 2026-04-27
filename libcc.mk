@@ -35,6 +35,6 @@ $(LIBCC_SHARED): $(LIBCC_O) | $(LIBDUMP)/
 
 $(LIBCC_O): $(LIBCC_C) | $(LIBCC_OBJDUMP)/
 	@$(LOG) Compiling $<
-	@$(CC) $(CFLAG) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 endif # LIBCC_MK
